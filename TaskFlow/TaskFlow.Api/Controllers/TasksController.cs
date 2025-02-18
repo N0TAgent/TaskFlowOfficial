@@ -16,46 +16,42 @@ namespace TaskFlow.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TaskItem>> GetAll()
+        public async Task<IEnumerable<TaskItem>> GetTasks()
         {
-            return await _taskRepository.GetAllTasksAsync();
+            return await _taskRepository.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TaskItem>> Get(int id)
+        public async Task<ActionResult<TaskItem>> GetTask(int id)
         {
-            var task = await _taskRepository.GetTaskByIdAsync(id);
+            var task = await _taskRepository.GetByIdAsync(id);
             if (task == null)
                 return NotFound();
-
             return task;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(TaskItem task)
+        public async Task<ActionResult<TaskItem>> CreateTask(TaskItem task)
         {
-            await _taskRepository.AddTaskAsync(task);
-            return CreatedAtAction(nameof(Get), new { id = task.Id }, task);
+            await _taskRepository.AddAsync(task);
+            return CreatedAtAction(nameof(GetTask), new { id = task.Id }, task);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, TaskItem task)
+        public async Task<IActionResult> UpdateTask(int id, TaskItem task)
         {
             if (id != task.Id)
                 return BadRequest();
 
-            await _taskRepository.UpdateTaskAsync(task);
+            await _taskRepository.UpdateAsync(task);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteTask(int id)
         {
-            await _taskRepository.DeleteTaskAsync(id);
+            await _taskRepository.DeleteAsync(id);
             return NoContent();
         }
     }
 }
-
-
-

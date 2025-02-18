@@ -1,16 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using TaskFlow.Core.Interfaces;
 using TaskFlow.Infrastructure.Data;
+using TaskFlow.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавляем контекст базы данных SQLite
+// Подключение SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Добавляем контроллеры
+// Добавление зависимостей
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.MapControllers();
 

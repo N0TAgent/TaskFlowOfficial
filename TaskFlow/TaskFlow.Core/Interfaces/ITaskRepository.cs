@@ -4,10 +4,10 @@ namespace TaskFlow.Core.Interfaces
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<TaskItem>> GetAllTasksAsync();
-        Task<TaskItem?> GetTaskByIdAsync(int id);
-        Task AddTaskAsync(TaskItem task);
-        Task UpdateTaskAsync(TaskItem task);
-        Task DeleteTaskAsync(int id);
+        Task<IEnumerable<TaskItem>> GetAllAsync();
+        Task<TaskItem?> GetByIdAsync(int id);
+        Task AddAsync(TaskItem task);
+        Task UpdateAsync(TaskItem task);
+        Task DeleteAsync(int id);
     }
 }
